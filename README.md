@@ -13,7 +13,8 @@ To install the Color Alteration Tool, you can clone this repository or download 
 After downloading the source code, run the following command to install the necessary dependencies:
 
 ```
-$ yarn # npm install
+$ yarn 
+# npm install
 ````
 
 ## Development
@@ -21,7 +22,8 @@ $ yarn # npm install
 Run Webpack in watch-mode to continually compile the JavaScript as you work:
 
 ```
-$ yarn watch # npm run watch
+$ yarn watch 
+# npm run watch
 ```
 
 ## Production
@@ -29,7 +31,8 @@ $ yarn watch # npm run watch
 Run Webpack for production of your project:
 
 ```
-$ yarn build # npm run build
+$ yarn build 
+# npm run build
 ````
 
 ## Built With
@@ -39,10 +42,6 @@ $ yarn build # npm run build
 - CSS
 - Webpack
 - Babel
-
-## Author
-
-Meziyum
 
 ## License
 
