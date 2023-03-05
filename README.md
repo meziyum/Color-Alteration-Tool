@@ -35,6 +35,9 @@ $ yarn build
 # npm run build
 ````
 
+## Screenshot
+![Screenshot](/images/screenshot.png)
+
 ## Built With
 
 - JavaScript
