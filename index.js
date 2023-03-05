@@ -18,13 +18,17 @@ toggleBtn.addEventListener('click', () => {
     lightenText.classList.add('unselected');
     darkenText.classList.remove('unselected');
   }
-  reset(); 
+  reset();
 })
 
 hexInput.addEventListener('keyup', () => {
   
   const hex = hexInput.value;
-  if(!isValidHex(hex)) return;
+  if(!isValidHex(hex)){
+    outline('red');
+    return;
+  }
+  outline('green');
   
   const strippedHex = hex.replace('#', '');
 
@@ -32,13 +36,25 @@ hexInput.addEventListener('keyup', () => {
   reset(); 
 })
 
+slider.addEventListener('input', () => {
+  if(!isValidHex(hexInput.value)) return;
+  
+  sliderText.textContent = `${slider.value}%`;
+  const valueAddition  = 
+    toggleBtn.classList.contains('toggled') ? 
+    -slider.value 
+    : slider.value;
+  
+  const alteredHex = alterColor(hexInput.value, valueAddition);
+  alteredColor.style.backgroundColor = alteredHex;
+  alteredColorText.innerText = `Altered Color ${alteredHex}`;
+})
+
 const isValidHex = (hex) => {
     if(!hex) return false;
-
     var regex = /[0-9A-Fa-f]{6}/g;
-    
-    const strippedHex = hex.replace('#', '');
-    return (strippedHex.length === 3 || strippedHex.length === 6) && hex.match(regex);
+    const strippedHex = hex.replace('#', '');    
+    return (strippedHex.length === 3 || strippedHex.length === 6) && (hex.match(regex) !=null);
 }
 
 const convertHexToRGB = (hex) => {
@@ -83,21 +99,11 @@ const increaseWithin0To255 = (hex, amount) => {
   return Math.min(255, Math.max(0, hex + amount));
 }
 
-slider.addEventListener('input', () => {
-  if(!isValidHex(hexInput.value)) return;
-  
-  sliderText.textContent = `${slider.value}%`;
-  const valueAddition  = 
-    toggleBtn.classList.contains('toggled') ? 
-    -slider.value 
-    : slider.value;
-  
-  const alteredHex = alterColor(hexInput.value, valueAddition);
-  alteredColor.style.backgroundColor = alteredHex;
-  alteredColorText.innerText = `Altered Color ${alteredHex}`;
-})
+const outline = (color) => {
+  hexInput.style.outline= `2px solid ${color}`;
+}
 
-const reset =() => {
+const reset = () => {
   alteredColor.style.backgroundColor = hexInput.value;
   alteredColorText.innerText = `Altered Color ${hexInput.value}`;
   sliderText.textContent = `0%`;

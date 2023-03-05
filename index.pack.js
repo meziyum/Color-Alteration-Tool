@@ -99,7 +99,11 @@ toggleBtn.addEventListener('click', function () {
 hexInput.addEventListener('keyup', function () {
 
   var hex = hexInput.value;
-  if (!isValidHex(hex)) return;
+  if (!isValidHex(hex)) {
+    outline('red');
+    return;
+  }
+  outline('green');
 
   var strippedHex = hex.replace('#', '');
 
@@ -107,13 +111,22 @@ hexInput.addEventListener('keyup', function () {
   reset();
 });
 
+slider.addEventListener('input', function () {
+  if (!isValidHex(hexInput.value)) return;
+
+  sliderText.textContent = slider.value + '%';
+  var valueAddition = toggleBtn.classList.contains('toggled') ? -slider.value : slider.value;
+
+  var alteredHex = alterColor(hexInput.value, valueAddition);
+  alteredColor.style.backgroundColor = alteredHex;
+  alteredColorText.innerText = 'Altered Color ' + alteredHex;
+});
+
 var isValidHex = function isValidHex(hex) {
   if (!hex) return false;
-
   var regex = /[0-9A-Fa-f]{6}/g;
-
   var strippedHex = hex.replace('#', '');
-  return (strippedHex.length === 3 || strippedHex.length === 6) && hex.match(regex);
+  return (strippedHex.length === 3 || strippedHex.length === 6) && hex.match(regex) != null;
 };
 
 var convertHexToRGB = function convertHexToRGB(hex) {
@@ -159,16 +172,9 @@ var increaseWithin0To255 = function increaseWithin0To255(hex, amount) {
   return Math.min(255, Math.max(0, hex + amount));
 };
 
-slider.addEventListener('input', function () {
-  if (!isValidHex(hexInput.value)) return;
-
-  sliderText.textContent = slider.value + '%';
-  var valueAddition = toggleBtn.classList.contains('toggled') ? -slider.value : slider.value;
-
-  var alteredHex = alterColor(hexInput.value, valueAddition);
-  alteredColor.style.backgroundColor = alteredHex;
-  alteredColorText.innerText = 'Altered Color ' + alteredHex;
-});
+var outline = function outline(color) {
+  hexInput.style.outline = '2px solid ' + color;
+};
 
 var reset = function reset() {
   alteredColor.style.backgroundColor = hexInput.value;
